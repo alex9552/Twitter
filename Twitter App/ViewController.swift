@@ -15,7 +15,9 @@ class ViewController: UIViewController {
     @IBAction func onLogin(sender: AnyObject) {
         TwitterClient.sharedInstace.requestSerializer.removeAccessToken()
         TwitterClient.sharedInstace.fetchRequestTokenWithPath("oauth/request_token", method: "GET", callbackURL: NSURL(string:  "cptwitterdemo://oauth"), scope: nil, success: { (requestToken: BDBOAuth1Credential!) -> Void in
-            print("Got request token")
+                print("Got request token")
+                let authURL = NSURL(string: "https://api.twitter.com/oauth/authorize?oauth_token=\(requestToken.token)")
+                UIApplication.sharedApplication().openURL(authURL!)
             }) { (error: NSError!) -> Void in
                 print("Failed to get request token")
         }
