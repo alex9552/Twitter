@@ -17,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        if User.currentUser != nil {
+            print("There is a current user")
+        } else {
+            print("There is no current user")
+        }
+        
         return true
     }
 
@@ -43,21 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        TwitterClient.sharedInstace.fetchAccessTokenWithPath("oauth/access_token", method: "POST", requestToken: BDBOAuth1Credential (queryString: url.query), success: { (accessToken: BDBOAuth1Credential!) -> Void in
-            print("Received access token")
-            TwitterClient.sharedInstace.requestSerializer.saveAccessToken(accessToken)
-            
-            TwitterClient.sharedInstace.GET("1.1/account/verify_credentials.json", parameters: nil, progress: { (progress: NSProgress) -> Void in
-                
-                }, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
-                    print("user: \(response)")
-                }, failure: { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
-                    print("Failed to retrieve user")
-            })
-            
-            }) { (error: NSError!) -> Void in
-                print("Failed to recieve access token")
-        }
+        
+        TwitterClient.sharedInstance.openURL(url)
         return true
     }
 
