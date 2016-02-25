@@ -19,8 +19,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     
     var loginSuccess: (() -> ())?
     var loginFailure: ((NSError) -> ())?
-    
-
+        
     static let sharedInstance = TwitterClient(baseURL: twitterBaseURL, consumerKey: twitterConsumerKey, consumerSecret: twitterConsumerSecret)
 
     
@@ -37,6 +36,13 @@ class TwitterClient: BDBOAuth1SessionManager {
             }) { (error: NSError!) -> Void in
                 self.loginFailure?(error)
         }
+    }
+    
+    func logout() {
+        User.currentUser = nil
+        deauthorize()
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("UserDidLogout", object: nil)
     }
     
     func currentAccount(success: (User) -> (), failure: (NSError) -> ()) {
