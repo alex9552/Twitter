@@ -19,9 +19,13 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func onRetweet(sender: AnyObject) {
         let tweet = tweets[sender.tag]
         if(tweet.retweeted){
+        
+            TwitterClient.sharedInstance.detweet(tweet)
             tweet.retweetCount = tweet.retweetCount - 1
             tweet.retweeted = false
+            
         } else{
+            TwitterClient.sharedInstance.retweet(tweet)
             tweet.retweetCount = tweet.retweetCount + 1
             tweet.retweeted = true
         }
@@ -32,21 +36,17 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     @IBAction func onFavorite(sender: AnyObject) {
         let tweet = tweets[sender.tag]
         if(tweet.favorited){
+            TwitterClient.sharedInstance.unfav(tweet)
             tweet.favoritesCount = tweet.favoritesCount - 1
             tweet.favorited = false
         } else{
+            TwitterClient.sharedInstance.fav(tweet)
             tweet.favoritesCount = tweet.favoritesCount + 1
             tweet.favorited = true
         }
         
         tableView.reloadData()
     }
-    
-    
-    
-    
-    
-    
     
     var tweets: [Tweet]!
     
@@ -55,7 +55,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 120
+        tableView.estimatedRowHeight = 140
 
         TwitterClient.sharedInstance.homeTimeline({ (tweets: [Tweet]) -> () in
             self.tweets = tweets
@@ -116,21 +116,33 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         cell.favoriteButton.addTarget(self, action: "onFavorite:", forControlEvents: .TouchUpInside)
         cell.retweetButton.addTarget(self, action: "onRetweet:", forControlEvents: .TouchUpInside)
         
-        
-        print("row \(indexPath.row)")
+        let tapGesture = UITapGestureRecognizer(target: self, action: "imageTapped:")
+        cell.profileView.addGestureRecognizer(tapGesture)
+        cell.profileView.userInteractionEnabled = true
+        cell.profileView.tag = indexPath.row
         
         return cell
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func imageTapped(gesture: UIGestureRecognizer) {
+        if let imageView = gesture.view as? UIImageView{
+            print("image tapped")
+            let vc = storyboard?.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+            vc.user = tweets[imageView.tag].user
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
-    */
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if let cell = sender as? UITableViewCell {
+            let indexPath = tableView.indexPathForCell(cell)
+            let tweet = self.tweets[indexPath!.row]
+        
+            let detailViewController = segue.destinationViewController as! TweetDetailViewController
+            detailViewController.tweet = tweet
+        }
+    }
+
 
 }

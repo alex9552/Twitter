@@ -92,5 +92,61 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
            
     }
+    
+    func retweet(tweet: Tweet){
+        
+        POST("https://api.twitter.com/1.1/statuses/retweet/\(tweet.id!).json", parameters: nil, progress: { (NSProgress) -> Void in
+            }, success: { (data: NSURLSessionDataTask, object: AnyObject?) -> Void in
+                print("Retweeted")
+            }) { (data: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Failed to retweet")
+                print(error)
+        }
+        
+    }
+    
+    func detweet(tweet: Tweet){
+        POST("https://api.twitter.com/1.1/statuses/unretweet/\(tweet.id!).json", parameters: nil, progress: { (NSProgress) -> Void in
+            }, success: { (data: NSURLSessionDataTask, object: AnyObject?) -> Void in
+                print("Unretweeted")
+            }) { (data: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Failed to unretweet")
+                print(error)
+        }
+    }
+    
+    func fav(tweet: Tweet){
+        POST("https://api.twitter.com/1.1/favorites/create.json?id=\(tweet.id!)", parameters: nil, progress: {
+            (NSProgress) -> Void in
+            print("hih")
+            }, success: { (data: NSURLSessionDataTask, object: AnyObject?) -> Void in
+                print("Favorited")
+            }) { (data: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Failed to favorite")
+                print(error)
+        }
+    }
+    
+    func unfav(tweet: Tweet){
+        POST("https://api.twitter.com/1.1/favorites/destroy.json?id=\(tweet.id!)", parameters: nil, progress: {
+            (NSProgress) -> Void in
+            print("progress!")
+            }, success: { (data: NSURLSessionDataTask, object: AnyObject?) -> Void in
+                print("Unfavorited")
+            }) { (data: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Failed to unfavorite")
+                print(error)
+        }
+    }
+    
+    func postStatus(text: String){
+        POST("https://api.twitter.com/1.1/statuses/update.json?status=\(text)", parameters: nil, progress: { (NSProgress) -> Void in
+            print("getting there")
+            }, success: { (data: NSURLSessionDataTask, object: AnyObject?) -> Void in
+                print("success")
+            }) { (data: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("failed to post tweet")
+        }
+    }
 }
 
