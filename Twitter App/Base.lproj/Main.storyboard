@@ -169,7 +169,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Compose" id="3Df-SL-Hqj">
                             <connections>
-                                <segue destination="uaf-FE-Xz1" kind="modal" id="lNR-MT-Men"/>
+                                <segue destination="vut-i5-KNO" kind="modal" id="Hxc-nL-Yh4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -229,6 +229,7 @@
                                 <state key="normal" title="Reply"/>
                                 <connections>
                                     <action selector="replyButton:" destination="aZM-Qr-1Qk" eventType="touchUpInside" id="uxg-eD-egM"/>
+                                    <segue destination="vut-i5-KNO" kind="modal" id="5fY-hf-Wv4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pTL-b7-FpM">
@@ -287,7 +288,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRJ-R1-MP8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1472" y="366"/>
+            <point key="canvasLocation" x="1454" y="366"/>
         </scene>
         <!--Compose-->
         <scene sceneID="MSH-7e-aTJ">
@@ -307,6 +308,20 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8zq-wr-k3u">
+                                <rect key="frame" x="204" y="28" width="36" height="30"/>
+                                <state key="normal" title="Send"/>
+                                <connections>
+                                    <action selector="sendButton:" destination="vut-i5-KNO" eventType="touchUpInside" id="6J1-Qq-2aI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqI-eu-Pcf">
+                                <rect key="frame" x="60" y="28" width="39" height="30"/>
+                                <state key="normal" title="Close"/>
+                                <connections>
+                                    <action selector="closeButton:" destination="vut-i5-KNO" eventType="touchUpInside" id="afq-Xi-SxG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -328,7 +343,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ifd-bv-her" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2398" y="366"/>
+            <point key="canvasLocation" x="1837" y="366"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fZk-Ph-Ctq">
@@ -470,23 +485,8 @@
             </objects>
             <point key="canvasLocation" x="1081" y="1054"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="SvA-9n-iMC">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uaf-FE-Xz1" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h4N-6q-Eji">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="vut-i5-KNO" kind="relationship" relationship="rootViewController" id="RvY-Sv-RT8"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WTg-sX-5MY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1866" y="366"/>
-        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Hxc-nL-Yh4"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -9,11 +9,12 @@
 import UIKit
 
 class ComposeViewController: UIViewController, UITextViewDelegate {
-
+    
+    var sendTo: Tweet? = nil
+    
     @IBAction func closeButton(sender: AnyObject) {
         self.dismissViewControllerAnimated(false, completion: nil)
     }
-    
     @IBAction func sendButton(sender: AnyObject) {
         TwitterClient.sharedInstance.postStatus(tweetTextView.text)
         self.dismissViewControllerAnimated(false, completion: nil)
@@ -24,6 +25,12 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         tweetTextView.delegate = self
+        
+        if let sendTo = sendTo {
+            tweetTextView.text = "@\(sendTo.user!.screenname! as String)"
+        } else {
+            tweetTextView.text = "Enter Tweet"
+        }
 
         // Do any additional setup after loading the view.
     }
